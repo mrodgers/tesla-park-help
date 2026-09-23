@@ -7,8 +7,6 @@
   var metaEl = document.getElementById("display-meta");
   var eink = document.querySelector(".eink");
   var note = document.getElementById("demo-note");
-  var mailtoLink = document.getElementById("mailto-link");
-  var copyBtn = document.getElementById("copy-email");
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var SAMPLES = ["GUEST-4821", "PK-7F3A", "VISITOR9"];
@@ -55,16 +53,6 @@
     metaEl.textContent = validThroughLabel();
 
     if (note) note.hidden = false;
-    if (mailtoLink) {
-      var subject = encodeURIComponent("Guest code for EV14E28");
-      var body = encodeURIComponent(
-        "Guest code: " +
-          clean +
-          "\nPlate: EV14E28\nValid through: (if known)\n"
-      );
-      mailtoLink.href =
-        "mailto:mrodgers.junk@gmail.com?subject=" + subject + "&body=" + body;
-    }
   }
 
   if (form && input) {
@@ -94,44 +82,5 @@
         updateDisplay(input.value);
       }, 0);
     });
-  }
-
-  if (copyBtn) {
-    copyBtn.addEventListener("click", function () {
-      var email = copyBtn.getAttribute("data-email") || "mrodgers.junk@gmail.com";
-      var done = function () {
-        copyBtn.setAttribute("data-copied", "true");
-        copyBtn.textContent = "Copied";
-        window.setTimeout(function () {
-          copyBtn.removeAttribute("data-copied");
-          copyBtn.textContent = "Copy";
-        }, 1600);
-      };
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email).then(done).catch(function () {
-          fallbackCopy(email, done);
-        });
-      } else {
-        fallbackCopy(email, done);
-      }
-    });
-  }
-
-  function fallbackCopy(text, done) {
-    var ta = document.createElement("textarea");
-    ta.value = text;
-    ta.setAttribute("readonly", "");
-    ta.style.position = "absolute";
-    ta.style.left = "-9999px";
-    document.body.appendChild(ta);
-    ta.select();
-    try {
-      document.execCommand("copy");
-      done();
-    } catch (err) {
-      /* ignore */
-    }
-    document.body.removeChild(ta);
   }
 })();

@@ -16,4 +16,4 @@ gh api repos/mrodgers/tesla-park-help/pages -X POST \
 
 Or: GitHub → Settings → Pages → Deploy from branch → `main` / `/ (root)`.
 
-Do not add secrets to this repo.
+Do not add secrets, license plates, or intake email addresses to this repo. Plate and inbox stay in the private intro email / agent notes only.
